@@ -12,8 +12,36 @@ function getStopTimes(stopId){
             if (req.status == 200) {
 //               console.log(req.responseText);
               //Parse the XML response
-              console.log(req.responseXML);
-	            parseBusInfo(req.responseXML);
+              	// for(var props in req){
+              	// 	console.log("PROP: " + props);
+              	// 	console.log(req[props]);
+              	// }
+              	console.log(req.response);
+	            parseBusInfo(req.response);
+            }
+            else {
+                console.log("Error getting bus times for stop: " + stopId);
+            }
+        }
+    };
+    req.send(null);
+}
+
+function getStopTimes(stopId){
+    if(!stopId){
+      //Forcing it to the airport stop for testing
+      stopId = 40110;
+    }
+    var url = 'http://myrfta.com/bustime/eta/getStopPredictionsETA.jsp?route=all&stop=' + stopId;    
+    var req = new XMLHttpRequest();
+  
+    req.open('GET', url, true);
+    req.onload = function(e) {
+        if (req.readyState == 4) {
+            if (req.status == 200) {
+              //Parse the XML response
+//               console.log(req);
+	            parseBusInfo(req.responseText);
             }
             else {
                 console.log("Error getting bus times for stop: " + stopId);
@@ -24,59 +52,67 @@ function getStopTimes(stopId){
 }
 
 function parseBusInfo(xmlObj){
-	var jsonObj = xmlToJson(xmlObj);
+	var upcomingBusesArry = xmlToJson(xmlObj);
 	var active, route, eta;
 	
-  //Loop through all of the upcoming busses
-	for(var index = 0; index < jsonObj.stop.pre.length; index++){
-		active = jsonObj.stop.pre[index];
-		route = active.rn.text;
-		eta = active.pt.text + ' ' + active.pu.text;
+	var len = upcomingBusesArry.length;
+	for(var index = 0; index < len; index++){
+		active = upcomingBusesArry[index];
+		route = active.rn;
+		
+		if(active.pt == "DELAYED"){
+			eta = active.pt;
+		}
+		else{
+			eta = active.pt + ' ' + active.pu;
+		}
 		console.log(route + ': ' + eta);
 	}
 }
 
+/*
+	* A custom function to parse xml text from this bus app to a json object
+*/
 // Changes XML to JSON
-function xmlToJson(xml) {
-  console.log("THE XML:");
-  console.log(xml);
+function xmlToJson(xmlString) {
 	// Create the return object
-	var obj = {};
-	if (xml.nodeType == 1) { // element
-		// do attributes
-		if (xml.attributes.length > 0) {
-		obj["@attributes"] = {};
-			for (var j = 0; j < xml.attributes.length; j++) {
-				var attribute = xml.attributes.item(j);
-				obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+	var responseArry = [];
+	var buses;
+	var tempArry = [];
+	xmlString = xmlString.replace(/\r|\n|\t/g, "");
+	
+	//Split on pre, and remove this illegal thing they give me sometimes....
+	buses = xmlString.replace('<![CDATA[&nbsp;]]>', '').split("<pre>");
+	
+	//Remove the first item in the array
+	buses.shift();
+	
+	//Iterate over the buses to parse the info into json
+	for(var bus = 0; bus < buses.length;  bus++){
+		
+		//Clear the tempArry
+		tempArry = [];
+		
+		//remove the closing pre tag, and split on the less than sign
+		buses[bus] = buses[bus].replace(/<\/pre>/g, '').split('<');
+		console.log(buses[bus]);
+		//Loop through all of the individual properties for each upcoming bus
+		var len = buses[bus].length;
+		for(var prop = 0; prop < len;  prop++){
+			//We ditch every odd item because of how we split
+			if(prop%2 != 0){
+				tempArry.push('"' + buses[bus][prop].replace(/>/g, '": "') + '"');
 			}
 		}
-	} else if (xml.nodeType == 3) { // text
-		obj = xml.nodeValue;
+		var jsonStr = "\{" + tempArry.join() + "\}";
+		console.log(jsonStr);
+		responseArry.push(JSON.parse(jsonStr));
 	}
-
-	// do children
-	if (xml.hasChildNodes()) {
-		for(var i = 0; i < xml.childNodes.length; i++) {
-			var item = xml.childNodes.item(i);
-			
-			//Getting rid of the pesky hashtag (seb 11/19/2017)
-			var nodeName = item.nodeName.replace('#', '');
-
-			if (typeof(obj[nodeName]) == "undefined") {
-				obj[nodeName] = xmlToJson(item);
-			} else {
-				if (typeof(obj[nodeName].push) == "undefined") {
-					var old = obj[nodeName];
-					obj[nodeName] = [];
-					obj[nodeName].push(old);
-				}
-				obj[nodeName].push(xmlToJson(item));
-			}
-		}
-	}
-	return obj;
+	
+	//Return the whole array
+	return responseArry;
 }
+
 
 
 Pebble.addEventListener("ready", function(e){

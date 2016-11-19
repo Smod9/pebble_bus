@@ -12,14 +12,14 @@ void splash_window_load(Window *window){
   //Set the gbitmap to the resource we want
   //Note: Resources can be referenced like `RESOURCE_ID_[resource_id]
   splashImage = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SPLASH);
-  splashImageLayer = bitmap_layer_create(GRect(0,20,168, 100));
+  splashImageLayer = bitmap_layer_create(GRect(10,30,168, 100));
   
   bitmap_layer_set_bitmap(splashImageLayer, splashImage);
   bitmap_layer_set_compositing_mode(splashImageLayer, GCompOpSet);
   layer_add_child(window_layer, bitmap_layer_get_layer(splashImageLayer));
   
-  splashImageTitle = text_layer_create(GRect(50,110,168, 50));
-  text_layer_set_text(splashImageTitle, "Weather Bitch!");
+  splashImageTitle = text_layer_create(GRect(60,120,168, 50));
+  text_layer_set_text(splashImageTitle, "RFTA Buses!");
 //   text_layer_set_text_alignment(splashImageTitle, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(splashImageTitle));
 }

@@ -1,0 +1,50 @@
+{
+    "targetPlatforms": [
+        "chalk"
+    ], 
+    "projectType": "native", 
+    "messageKeys": {
+        "temperature": 10001, 
+        "getWeather": 10002, 
+        "cityname": 10004, 
+        "cityid": 10003, 
+        "color_picker": 10006, 
+        "boolean_box": 10005, 
+        "icon": 10000
+    }, 
+    "companyName": "sebgd@icloud.com", 
+    "enableMultiJS": true, 
+    "versionLabel": "1.0", 
+    "longName": "RFTA", 
+    "shortName": "RFTA", 
+    "name": "RFTA", 
+    "sdkVersion": "3", 
+    "displayName": "RFTA", 
+    "uuid": "77b40a84-30ad-4ca5-8106-8d80f38f2fa5", 
+    "appKeys": {
+        "temperature": 10001, 
+        "getWeather": 10002, 
+        "cityname": 10004, 
+        "cityid": 10003, 
+        "color_picker": 10006, 
+        "boolean_box": 10005, 
+        "icon": 10000
+    }, 
+    "capabilities": [
+        "location", 
+        "configurable"
+    ], 
+    "watchapp": {
+        "watchface": false
+    }, 
+    "resources": {
+        "media": [
+            {
+                "targetPlatforms": null, 
+                "type": "bitmap", 
+                "name": "IMAGE_SPLASH", 
+                "file": "images/weather_icon.png"
+            }
+        ]
+    }
+}

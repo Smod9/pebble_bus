@@ -17,7 +17,7 @@ int main(){
   window_stack_push(splash_window_get_window(), true);
 
   //Add a delay to ditch the splash screen and launch our menu
-  AppTimer *mainWindowTimer = app_timer_register(1500, launch_main_window, NULL);
+  AppTimer *mainWindowTimer = app_timer_register(2000, launch_main_window, NULL);
   
   app_event_loop();
   

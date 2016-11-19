@@ -1,0 +1,9 @@
+{
+    "boolean_box": 10005,
+    "cityid": 10003,
+    "cityname": 10004,
+    "color_picker": 10006,
+    "getWeather": 10002,
+    "icon": 10000,
+    "temperature": 10001
+}

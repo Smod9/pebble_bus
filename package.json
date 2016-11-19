@@ -1,18 +1,15 @@
 {
     "author": "sebgd@icloud.com",
     "dependencies": {
-        "pebble-clay": "^1.0.3",
-        "requirejs": "^2.3.2",
-        "xml2js": "^0.4.17"
     },
     "keywords": [],
-    "name": "weather-app",
+    "name": "RFTA",
     "pebble": {
         "capabilities": [
             "location",
             "configurable"
         ],
-        "displayName": "Weather App",
+        "displayName": "RFTA",
         "enableMultiJS": true,
         "messageKeys": [
             "icon",
@@ -36,8 +33,6 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
-            "aplite",
-            "basalt",
             "chalk"
         ],
         "uuid": "77b40a84-30ad-4ca5-8106-8d80f38f2fa5",
