@@ -1,0 +1,49 @@
+{
+    "author": "sebgd@icloud.com",
+    "dependencies": {
+        "pebble-clay": "^1.0.3",
+        "requirejs": "^2.3.2",
+        "xml2js": "^0.4.17"
+    },
+    "keywords": [],
+    "name": "weather-app",
+    "pebble": {
+        "capabilities": [
+            "location",
+            "configurable"
+        ],
+        "displayName": "Weather App",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "icon",
+            "temperature",
+            "getWeather",
+            "cityid",
+            "cityname",
+            "boolean_box",
+            "color_picker"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/weather_icon.png",
+                    "name": "IMAGE_SPLASH",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "77b40a84-30ad-4ca5-8106-8d80f38f2fa5",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
