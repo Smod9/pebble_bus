@@ -7,9 +7,8 @@ MenuLayer *mainMenuLayer;
 
 City cities[MAX_AMOUNT_OF_CITIES];
 City currentCityToWrite;
-
-// BusStop activeStop;
-// BusStop busStops[MAX_NUMBER_OF_STOPS];
+BusStop activeStop;
+BusStop busStops[MAX_NUMBER_OF_STOPS];
 
 const char *conditions[] = {
   "Clear",
@@ -112,20 +111,20 @@ char *get_readable_dictation_status(DictationSessionStatus status){
     return "Unknown";
 }
 
-// void get_upcoming_buses_for_route(char *stop_id ){
-//   DictionaryIterator *iter;
-//   app_message_outbox_begin(&iter);
+void get_upcoming_buses_for_route(char *stop_id ){
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
   
-//   if(iter == NULL){
-//     APP_LOG(APP_LOG_LEVEL_ERROR, "Iter is null! Not sending");
-//     return;
-//   }
+  if(iter == NULL){
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Iter is null! Not sending");
+    return;
+  }
   
-//   dict_write_cstring(iter, MESSAGE_KEY_get_upcoming_busses, stop_id);
-//   dict_write_end(iter);
+  dict_write_cstring(iter, MESSAGE_KEY_get_upcoming_busses, stop_id);
+  dict_write_end(iter);
   
-//   app_message_outbox_send(); 
-// }
+  app_message_outbox_send(); 
+}
 
 void send_weather_request(char *city){
   DictionaryIterator *iter;
@@ -215,13 +214,10 @@ void process_tuple(Tuple *t){
     uint32_t key = t->key;
     int value = t->value->int32;
     
-    APP_LOG(APP_LOG_LEVEL_INFO, "Got key %d with value %d", (int)key, value);
-
-    //This switch handles all incoming key value pairs
     if(key == MESSAGE_KEY_icon ){
       currentCityToWrite.condition = value;
     }
-    else if(key == MESSAGE_KEY_citynameid){
+    else if(key == MESSAGE_KEY_cityid){
       currentCityToWrite.id = value;
     }
     else if(key == MESSAGE_KEY_temperature){
@@ -230,12 +226,12 @@ void process_tuple(Tuple *t){
     else if(key == MESSAGE_KEY_cityname){
       strncpy(currentCityToWrite.name[0], t->value->cstring, sizeof(currentCityToWrite.name[0])) ;
     }
-    // else if(key == MESSAGE_KEY_stop_name){
-    //   strncpy(activeStop.name[0], t->value->cstring, sizeof(activeStop.name[0])) ;
-    // }
-    // else if(key == MESSAGE_KEY_stop_id){
-    //   strncpy(activeStop.id[0], t->value->cstring, sizeof(activeStop.id[0])) ;
-    // }
+    else if(key == MESSAGE_KEY_stop_name){
+      strncpy(activeStop.name[0], t->value->cstring, sizeof(activeStop.name[0])) ;
+    }
+    else if(key == MESSAGE_KEY_stop_id){
+      strncpy(activeStop.id[0], t->value->cstring, sizeof(activeStop.id[0])) ;
+    }
     else if(key == MESSAGE_KEY_color_picker){
       GColor color = GColorFromHEX(t->value->int32);
       menu_layer_set_highlight_colors(mainMenuLayer, color, gcolor_legible_over(color));
@@ -244,6 +240,7 @@ void process_tuple(Tuple *t){
       return;
     }
   
+    APP_LOG(APP_LOG_LEVEL_INFO, "Got key %d with value %d", (int)key, value);
 }
 
 void message_inbox(DictionaryIterator *iter, void *context){  
@@ -260,25 +257,26 @@ void message_inbox(DictionaryIterator *iter, void *context){
     //Build the subtitle for the data we just got
     snprintf(currentCityToWrite.subtitle[0], sizeof(currentCityToWrite.subtitle[0]), "%d°, %s", currentCityToWrite.temperature, conditions[currentCityToWrite.condition]);
     
-    // //See if this city already exists. if so, just update it. 
-    //  for(int i = 0; i < MAX_NUMBER_OF_STOPS; i++){
-    //     if(busStops[i].id == activeStop.id){
-    //       activeStop.exists = true;
-    //       busStops[i] = activeStop;
-    //     }
-    // }
+
+    //See if this city already exists. if so, just update it. 
+     for(int i = 0; i < MAX_NUMBER_OF_STOPS; i++){
+        if(busStops[i].id == activeStop.id){
+          activeStop.exists = true;
+          busStops[i] = activeStop;
+        }
+    }
     
-    // // //If the city doesnt already exits, add it to our list of cities
-    // if(!activeStop.exists){
-    //   for(int i = 0; i < MAX_NUMBER_OF_STOPS; i++){
-    //     if(!busStops[i].exists){
-    //       activeStop.exists = true;
-    //       busStops[i] = activeStop;
-    //       // vibes_double_pulse();
-    //       break;
-    //     }
-    //   }
-    // }
+    //If the city doesnt already exits, add it to our list of cities
+    if(!activeStop.exists){
+      for(int i = 0; i < MAX_NUMBER_OF_STOPS; i++){
+        if(!busStops[i].exists){
+          activeStop.exists = true;
+          busStops[i] = activeStop;
+          // vibes_double_pulse();
+          break;
+        }
+      }
+    }
 
     //See if this city already exists. if so, just update it. 
      for(int i = 0; i < MAX_AMOUNT_OF_CITIES; i++){

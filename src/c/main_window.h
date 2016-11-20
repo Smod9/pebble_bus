@@ -11,11 +11,11 @@ typedef struct{
   char subtitle[1][30];
 } City;
 
-// typedef struct{
-//   bool exists;
-//   char id[1][5];
-//   char name[1][45];
-// } BusStop;  
+typedef struct{
+  bool exists;
+  char id[1][5];
+  char name[1][45];
+} BusStop;  
 
 void main_window_create();
 void main_window_destroy();
