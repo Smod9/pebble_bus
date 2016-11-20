@@ -6,10 +6,13 @@
 // DO NOT MODIFY - CHANGES WILL BE OVERWRITTEN
 //
 
-uint32_t MESSAGE_KEY_boolean_box = 10005;
-uint32_t MESSAGE_KEY_cityid = 10003;
-uint32_t MESSAGE_KEY_cityname = 10004;
-uint32_t MESSAGE_KEY_color_picker = 10006;
+uint32_t MESSAGE_KEY_boolean_box = 10008;
+uint32_t MESSAGE_KEY_cityid = 10006;
+uint32_t MESSAGE_KEY_cityname = 10007;
+uint32_t MESSAGE_KEY_color_picker = 10009;
 uint32_t MESSAGE_KEY_getWeather = 10002;
+uint32_t MESSAGE_KEY_get_upcoming_busses = 10003;
 uint32_t MESSAGE_KEY_icon = 10000;
+uint32_t MESSAGE_KEY_stop_id = 10005;
+uint32_t MESSAGE_KEY_stop_name = 10004;
 uint32_t MESSAGE_KEY_temperature = 10001;

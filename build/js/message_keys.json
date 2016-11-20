@@ -1,9 +1,12 @@
 {
-    "boolean_box": 10005,
-    "cityid": 10003,
-    "cityname": 10004,
-    "color_picker": 10006,
+    "boolean_box": 10008,
+    "cityid": 10006,
+    "cityname": 10007,
+    "color_picker": 10009,
     "getWeather": 10002,
+    "get_upcoming_busses": 10003,
     "icon": 10000,
+    "stop_id": 10005,
+    "stop_name": 10004,
     "temperature": 10001
 }

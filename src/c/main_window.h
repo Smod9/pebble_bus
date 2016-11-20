@@ -1,5 +1,6 @@
 #pragma once
 #define MAX_AMOUNT_OF_CITIES  5
+#define MAX_NUMBER_OF_STOPS 100
 
 typedef struct{
   bool exists;
@@ -9,6 +10,12 @@ typedef struct{
   char name[1][30];
   char subtitle[1][30];
 } City;
+
+// typedef struct{
+//   bool exists;
+//   char id[1][5];
+//   char name[1][45];
+// } BusStop;  
 
 void main_window_create();
 void main_window_destroy();

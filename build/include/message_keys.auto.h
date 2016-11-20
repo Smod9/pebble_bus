@@ -11,5 +11,8 @@ extern uint32_t MESSAGE_KEY_cityid;
 extern uint32_t MESSAGE_KEY_cityname;
 extern uint32_t MESSAGE_KEY_color_picker;
 extern uint32_t MESSAGE_KEY_getWeather;
+extern uint32_t MESSAGE_KEY_get_upcoming_busses;
 extern uint32_t MESSAGE_KEY_icon;
+extern uint32_t MESSAGE_KEY_stop_id;
+extern uint32_t MESSAGE_KEY_stop_name;
 extern uint32_t MESSAGE_KEY_temperature;
